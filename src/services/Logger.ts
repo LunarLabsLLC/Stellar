@@ -8,9 +8,8 @@ import ora from "ora"
 import { parse, StackFrame } from "stacktrace-parser"
 import { delay, inject, singleton } from "tsyringe"
 
-import * as controllers from "@api/controllers"
-import { apiConfig, logsConfig } from "@configs"
-import { Pastebin, PluginsManager, Scheduler, WebSocket } from "@services"
+import { logsConfig } from "@configs"
+import { PluginsManager, Scheduler } from "@services"
 import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from "@utils/functions"
 
 @singleton()
@@ -19,8 +18,6 @@ export class Logger {
     constructor(
         @inject(delay(() => Client)) private client: Client,
         @inject(delay(() => Scheduler)) private scheduler: Scheduler,
-        @inject(delay(() => WebSocket)) private ws: WebSocket,
-        @inject(delay(() => Pastebin)) private pastebin: Pastebin,
         @inject(delay(() => PluginsManager)) private pluginsManager: PluginsManager
     ) {
         this.defaultConsole = { ...console }
@@ -67,8 +64,6 @@ export class Logger {
         if (level === 'error') templatedMessage = chalk.red(templatedMessage)
         
         this.defaultConsole[level](templatedMessage)
-
-        this.websocket(level, message)
     }
 
     /**
@@ -114,15 +109,6 @@ export class Logger {
 
             channel.send(this.embedLevelBuilder[level ?? 'info'](message)).catch(console.error)
         }
-    }
-
-    websocket(level: typeof this.levels[number] = 'info', message: string) {
-
-        // send the log to all connected websocket clients        
-        this.ws.broadcast('log', { 
-            level, 
-            message: message 
-        })
     }
 
     // =================================
@@ -353,12 +339,6 @@ export class Logger {
             }
         }
 
-        if (embedMessage.length >= 4096) {        
-            const paste = await this.pastebin.createPaste(embedTitle + "\n" + embedMessage)
-            console.log(paste?.getLink())
-            embedMessage = `[Pastebin of the error](https://rentry.co/${paste?.getLink()})`
-        }
-
         if (logsConfig.error.console) this.console(chalkedMessage, 'error')
         if (logsConfig.error.file) this.file(message, 'error')
         if (logsConfig.error.channel && process.env['NODE_ENV'] === 'production') this.discordChannel(logsConfig.error.channel, {
@@ -426,21 +406,6 @@ export class Logger {
         
         this.console(chalk.yellow(`${symbol} ${numberAlign(services.length + pluginsServicesCount)} ${chalk.bold('services')} loaded`), 'info', true)
 
-        // api
-        if (apiConfig.enabled) {
-
-            const endpointsCount = Object.values(controllers).reduce((acc, controller) => {
-
-                const methodsName = Object
-                    .getOwnPropertyNames(controller.prototype)
-                    .filter(methodName => methodName !== 'constructor')
-                
-                return acc + methodsName.length
-            }, 0)
-
-            this.console(chalk.cyan(`${symbol} ${numberAlign(endpointsCount)} ${chalk.bold('api endpoints')} loaded`), 'info', true)
-        }
-
         // scheduled jobs
         const scheduledJobs = this.scheduler.jobs.size
 
@@ -450,25 +415,6 @@ export class Logger {
         const pluginsCount = this.pluginsManager.plugins.length
 
         this.console(chalk.hex('#47d188')(`${symbol} ${numberAlign(pluginsCount)} ${chalk.bold('plugin' + (pluginsCount > 1 ? 's':''))} loaded`), 'info', true)
-    
-        // connected
-        if (apiConfig.enabled) {
-
-            this.console(chalk.gray(boxen(
-                ` API Server listening on port ${chalk.bold(apiConfig.port)} `,
-                {
-                    padding: 0,
-                    margin: {
-                        top: 1,
-                        bottom: 0,
-                        left: 1,
-                        right: 1
-                    },
-                    borderStyle: 'round',
-                    dimBorder: true
-                }
-            )), 'info', true)
-        }
 
         this.console(chalk.hex('7289DA')(boxen(
             ` ${this.client.user ? `${chalk.bold(this.client.user.tag)}` : 'Bot'} is ${chalk.green('connected')}! `,

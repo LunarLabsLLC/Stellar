@@ -6,10 +6,9 @@ import discordLogs from "discord-logs"
 import { Client, DIService, tsyringeDependencyRegistryEngine } from "discordx"
 import { container } from "tsyringe"
 
-import { Server } from "@api/server"
-import { apiConfig, generalConfig, websocketConfig } from "@configs"
+import {  generalConfig } from "@configs"
 import { NoBotTokenError } from "@errors"
-import { Database, ErrorHandler, EventManager, ImagesUpload, Logger, PluginsManager, Store, WebSocket } from "@services"
+import { Database, ErrorHandler, EventManager, Logger, PluginsManager, Store } from "@services"
 import { initDataTable, resolveDependency } from "@utils/functions"
 import { clientConfig } from "./client"
 import { RequestContext } from '@mikro-orm/core'
@@ -65,25 +64,6 @@ async function run() {
         if (!process.env.BOT_TOKEN) throw new NoBotTokenError()
         client.login(process.env.BOT_TOKEN)
             .then(async () => {
-
-                // start the api server
-                if (apiConfig.enabled) {
-                    const server = await resolveDependency(Server)
-                    await server.start()
-                }
-
-                // connect to the dashboard websocket
-                if (websocketConfig.enabled) {
-                    const webSocket = await resolveDependency(WebSocket)
-                    await webSocket.init(client.user?.id || null)
-                }
-
-                // upload images to imgur if configured
-                if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
-                    const imagesUpload = await resolveDependency(ImagesUpload)
-                    await imagesUpload.syncWithDatabase()
-                }
-        
                 const store = await container.resolve(Store)
                 store.select('ready').subscribe(async (ready) => {
 

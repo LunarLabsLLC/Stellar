@@ -1,6 +1,6 @@
 # npm
 node_modules/
-.idea/
+**/.DS_Store
 
 # secrets
 .env
@@ -21,4 +21,3 @@ logs/
 
 # other
 tests/
-**/.DS_Store

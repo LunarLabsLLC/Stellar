@@ -84,14 +84,3 @@ type StatsConfigType = {
         exclude: InteractionsConstants[]
     }
 }
-
-type APIConfigType = {
-
-    enabled: boolean
-    port: number
-}
-
-type WebsocketConfigType = {
-
-    enabled: boolean
-}

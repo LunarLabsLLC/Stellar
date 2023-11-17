@@ -13,13 +13,6 @@ declare global {
         DATABASE_NAME: string
         DATABASE_USER: string
         DATABASE_PASSWORD: string
-        
-        API_PORT: string
-        API_ADMIN_TOKEN: string
-        
-        WEBSOCKET_URL: string
-
-        IMGUR_CLIENT_ID: string
       }
     }
   }
