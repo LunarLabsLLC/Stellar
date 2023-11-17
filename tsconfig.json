@@ -1,13 +1,14 @@
 {
-  "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
-    "rootDir": "./src",
-    "outDir": "./prod",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
-  }
+	"$schema": "https://json.schemastore.org/tsconfig.json",
+	"extends": "@sapphire/ts-config/extra-strict",
+	"compilerOptions": {
+		"declaration": false,
+		"declarationMap": false,
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"target": "ESNext",
+		"outDir": "dist",
+		"skipLibCheck": true,
+		"strictNullChecks": true
+	}
 }
