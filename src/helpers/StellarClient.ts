@@ -4,7 +4,6 @@ import {
     CommandInteraction,
     CreateApplicationCommandOptions,
     Interaction,
-    InteractionTypes,
     ModalSubmitInteraction,
   } from "oceanic.js";
   import { resolve } from "path";

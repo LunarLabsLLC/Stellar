@@ -30,4 +30,5 @@ export class LogService {
 	public static getLogger() {
 		return this.logger;
 	}
+
 }
