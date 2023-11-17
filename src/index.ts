@@ -1,6 +1,5 @@
 import { Client, Presence, PresenceManager } from "discord.js";
 import { ClientPartials, IntentOptions } from "./config/ClientOptions";
-import { connectDatabase } from "./database/connectDatabase";
 import StellarClient from "./client/StellarClient";
 import { registerInteractions } from "./client/interfaces";
 import path from "path";
@@ -16,12 +15,8 @@ const client = new StellarClient({
     }
 })
 
-connectDatabase().then(() => {
-    console.log("Successfully connected to the database");
+client.registerCommands()
+client.registerEvents()
+registerInteractions(client, path.join(__dirname, "interactions"))
 
-    client.registerCommands()
-    client.registerEvents()
-    registerInteractions(client, path.join(__dirname, "interactions"))
-
-    client.login(process.env.BOT_TOKEN)
-})
+client.login(process.env.BOT_TOKEN)
