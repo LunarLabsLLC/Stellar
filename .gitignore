@@ -4,3 +4,36 @@ configs/bot.yaml
 cmdhash-production
 yarn-error.log
 yarn.lock
+# Packages and development
+node_modules/
+.vscode/*
+!.vscode/settings.json
+
+# Build artifacts
+dist/
+
+# Log files
+log_buffer/
+logs/
+*.log
+*.heapsnapshot
+
+# Environment variables
+.env
+
+# Tests and debug data
+src/tests/
+data/
+
+# Yarn files
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Cache
+.prettiercache
+.eslintcache
