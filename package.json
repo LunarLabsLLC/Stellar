@@ -113,7 +113,7 @@
     ]
   },
   "volta": {
-    "node": "16.17.0"
+    "node": "18.17.0"
   },
   "nodemonConfig": {
     "ignore": [
