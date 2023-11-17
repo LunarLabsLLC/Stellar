@@ -1,3 +1,24 @@
-.yarn/
-dist/
-node_modules
+# npm
+node_modules/
+.idea/
+
+# secrets
+.env
+.env.local
+
+# build
+build/
+
+# db
+*.sqlite
+objects/
+snapshot*.txt
+/data/
+
+# logs
+logs/
+*.log
+
+# other
+tests/
+**/.DS_Store
