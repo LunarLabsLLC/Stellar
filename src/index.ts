@@ -1,4 +1,3 @@
-import { Client, Presence, PresenceManager } from "discord.js";
 import { ClientPartials, IntentOptions } from "./config/ClientOptions";
 import StellarClient from "./client/StellarClient";
 import { registerInteractions } from "./client/interfaces";
