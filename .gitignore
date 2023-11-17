@@ -1,23 +1,6 @@
-# npm
 node_modules/
-**/.DS_Store
-
-# secrets
-.env
-.env.local
-
-# build
-build/
-
-# db
-*.sqlite
-objects/
-snapshot*.txt
-/data/
-
-# logs
-logs/
-*.log
-
-# other
-tests/
+configs/.env
+configs/bot.yaml
+cmdhash-production
+yarn-error.log
+yarn.lock
