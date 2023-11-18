@@ -1,6 +1,7 @@
 import Keyv from 'keyv';
 import KeyvMongo from '@keyv/mongo';
 import { LogService } from "../service/LogService";
+import LogManager from '../managers/LogManager';
 
 class GuildSettingsDb {
   private keyv: Keyv;
@@ -11,7 +12,7 @@ class GuildSettingsDb {
 
     const keyv = new Keyv(uri, { store: new KeyvMongo(uri, { collection }) });
 
-    keyv.on('error', err => console.error('Connection Error', err));
+    keyv.on('error', err => LogManager.log(err. error, "Connection Error"));
 
     this.keyv = keyv;
   }
