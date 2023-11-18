@@ -18,11 +18,17 @@ class GuildSettingsDb {
   }
 
   async setSetting(guildId: string, setting: string, value: any): Promise<void> {
-    await this.keyv.set(`${guildId}:${setting}`, value);
+    const serializedValue = JSON.stringify(value);
+    await this.keyv.set(`${guildId}:${setting}`, serializedValue);
   }
 
+
   async getSetting(guildId: string, setting: string): Promise<any> {
-    return await this.keyv.get(`${guildId}:${setting}`);
+    const serializedValue = await this.keyv.get(`${guildId}:${setting}`);
+    if (serializedValue) {
+      return JSON.parse(serializedValue);
+    }
+    return null;
   }
 
   async deleteSetting(guildId: string, setting: string): Promise<boolean> {
