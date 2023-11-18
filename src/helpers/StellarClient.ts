@@ -15,6 +15,7 @@ import {
   import { InteractionHandler } from "./InteractionHandler";
   import { createHash } from "crypto";
 import { RegisteredButtonInteraction, RegisteredModalSubmitInteraction, RegisteredSelectMenuInteraction } from "../managers/CommandManager";
+import GuildSettingsDb from "../database/GuildSettingsDb";
   const config = getBotConfig();
   
   export type CustomApplicationCommand = {
@@ -30,13 +31,16 @@ import { RegisteredButtonInteraction, RegisteredModalSubmitInteraction, Register
     public readonly logger = LogService.getLogger();
     private commands: Map<string, CustomApplicationCommand>;
     private interactionHandler: InteractionHandler;
-    private config: any;
 
+    config: any;
     startedAt: number;
     
     buttons: RegisteredButtonInteraction[] = [];
     selectMenus: RegisteredSelectMenuInteraction[] = [];
     modals: RegisteredModalSubmitInteraction[] = [];
+
+    // dbs
+    guildDb: GuildSettingsDb;
   
     constructor(options: ClientOptions) {
       super(options);
@@ -47,6 +51,13 @@ import { RegisteredButtonInteraction, RegisteredModalSubmitInteraction, Register
       });
       this.startedAt = Date.now()
       this.interactionHandler = new InteractionHandler();
+
+      this.guildDb = new GuildSettingsDb(config)
+    }
+
+    // USEFUL FUNCTIONS DURING INTERACTION
+    public getGuildSetting(guildID: string, setting: string): Promise<any> {
+      return this.guildDb.getSetting(guildID, setting)
     }
   
     private registerEventListeners = async () => {
