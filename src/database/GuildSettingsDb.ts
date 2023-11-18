@@ -2,15 +2,16 @@ import Keyv from 'keyv';
 import KeyvMongo from '@keyv/mongo';
 import { LogService } from "../service/LogService";
 import LogManager from '../managers/LogManager';
+import { DatabaseService } from '../service/DatabaseService';
 
 class GuildSettingsDb {
+
   private keyv: Keyv;
 
-  constructor() {
-    const uri = 'mongodb://user:pass@localhost:27017/dbname';
+  constructor(config: any) {
     const collection = 'guildSettings';
 
-    const keyv = new Keyv(uri, { store: new KeyvMongo(uri, { collection }) });
+    const keyv = new Keyv(DatabaseService.getMongoURI(config), { store: new KeyvMongo(DatabaseService.getMongoURI(config), { collection }) });
 
     keyv.on('error', err => LogManager.log(err. error, "Connection Error"));
 
@@ -18,8 +19,7 @@ class GuildSettingsDb {
   }
 
   async setSetting(guildId: string, setting: string, value: any): Promise<void> {
-    const serializedValue = JSON.stringify(value);
-    await this.keyv.set(`${guildId}:${setting}`, serializedValue);
+    await this.keyv.set(`${guildId}:${setting}`, value);
   }
 
 
