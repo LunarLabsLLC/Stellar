@@ -38,9 +38,9 @@ import { RegisteredButtonInteraction, RegisteredModalSubmitInteraction, Register
     selectMenus: RegisteredSelectMenuInteraction[] = [];
     modals: RegisteredModalSubmitInteraction[] = [];
   
-    constructor(config: any, options: ClientOptions) {
+    constructor(options: ClientOptions) {
       super(options);
-      this.config = config;
+      this.config = getBotConfig();
       this.commands = new Map();
       this.registerEventListeners().catch((e) => {
         this.logger.error(e);
