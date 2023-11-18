@@ -7,8 +7,8 @@ import {
 } from "oceanic.js";
 import { resolve } from "path";
 
-import { LogService } from "../service/LogService";
 import { getDirFiles } from "../utils/common.util";
+import LogManager from "../managers/LogManager";
 
 interface Handler {
   id: string;
@@ -17,7 +17,6 @@ interface Handler {
   ) => Promise<any>;
 }
 
-const logger = LogService.getLogger();
 
 export class InteractionHandler {
   private handlers: Map<string, Handler>;
@@ -25,7 +24,7 @@ export class InteractionHandler {
   constructor() {
     this.handlers = new Map();
     this.loadHandlers().catch((e) => {
-      logger.error(e);
+      LogManager.log(e as string, "error");
     });
   }
 
@@ -89,7 +88,7 @@ export class InteractionHandler {
 
     for (const f of handlerFiles) {
       const handler = await import(f).catch((e) => {
-        logger.error(e);
+        LogManager.log(e as string, "error");
       });
 
       if (!handler) continue;
@@ -100,7 +99,6 @@ export class InteractionHandler {
 
       this.handlers.set(handler.id, handler);
     }
-
-    logger.info(`interaction-handler: loaded ${this.handlers.size} handlers`);
+    LogManager.log(`interaction-handler: loaded ${this.handlers.size} handlers`, "info");
   };
 }

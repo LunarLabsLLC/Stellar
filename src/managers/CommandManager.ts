@@ -6,7 +6,7 @@ import path from "path";
 // Command stuff
 type StellarCommandData = Omit<CommandInteraction, "addSubcommand" | "addSubcommandGroup">;
 
-export default interface ICommand {
+export default interface CommandManager {
     data: StellarCommandData;
     execute: (client: StellarClient, interaction: CommandInteraction) => Promise<void>;
 }

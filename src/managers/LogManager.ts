@@ -16,7 +16,7 @@ export default class LogManager {
    * @param {string} channel The channel the message should be sent to.
    * @param {string} thread The thread the message should be labelled under. Defaults to "LOG".
    */
-  static log(message: string, channel: string = "log", thread: string = "Fish SDK") {
+  static log(message: string, channel: string = "log", thread: string = "StellarClient") {
     switch (channel) {
       case "error":
         console.error(LogManager.formatLoggable(message, chalk.red(channel.toUpperCase()), thread));
