@@ -1,4 +1,4 @@
-import { CommandInteraction, ClientEvents, Message, Collection, ModalSubmitInteraction } from "oceanic.js";
+import { CommandInteraction, ClientEvents, Message, Collection, ModalSubmitInteraction, GuildComponentSelectMenuInteraction, GuildComponentButtonInteraction } from "oceanic.js";
 import { StellarClient } from "../helpers/StellarClient";
 import fs from "fs";
 import path from "path";
@@ -37,8 +37,8 @@ interface RegisteredInteraction<T> {
   }
 
 export type RegisteredModalSubmitInteraction = RegisteredInteraction<ModalSubmitInteraction>;
-export type RegisteredSelectMenuInteraction = RegisteredInteraction<SelectMenuInteraction>;
-export type RegisteredButtonInteraction = RegisteredInteraction<ButtonInteraction>;
+export type RegisteredSelectMenuInteraction = RegisteredInteraction<GuildComponentSelectMenuInteraction>;
+export type RegisteredButtonInteraction = RegisteredInteraction<GuildComponentButtonInteraction>;
 
 export type PossibleInteraction = RegisteredModalSubmitInteraction | RegisteredSelectMenuInteraction | RegisteredButtonInteraction;
 

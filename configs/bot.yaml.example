@@ -19,6 +19,12 @@ ACTIVITY NAME: "systems"
 #   dnd
 STATUS: "online"
 
+# Mongo URI
+MONGO URI: "mongodb://localhost:27017"
+
+# Mongo Database name
+DATABASE NAME: "Stellar"
+
 # Guild used for slash command testing.
 # This is only for development and you can safely ignore this option.
 TEST GUILD ID: "1066351250410577960"

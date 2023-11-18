@@ -8,7 +8,7 @@ setGlobalDispatcher(new Agent({ connect: { timeout: 20_000 } }));
 const config = getBotConfig();
 
 async function initializeBot() {
-  const client = new StellarClient({
+  const client = new StellarClient(config, {
     auth: `Bot ${config["TOKEN"]}`,
     gateway: {
       intents:

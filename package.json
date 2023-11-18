@@ -10,9 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@keyv/mongo": "^2.2.8",
     "boxen": "^7.1.1",
     "chalk": "^5.3.0",
     "humanize-duration": "^3.31.0",
+    "keyv": "^4.5.4",
     "oceanic.js": "^1.8.1",
     "ora": "^7.0.1",
     "pino": "^8.16.2",

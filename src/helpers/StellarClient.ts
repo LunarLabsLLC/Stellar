@@ -14,6 +14,7 @@ import {
   import { ModalSubmitOptionResolver } from "./ModalSubmitOptionResolver";
   import { InteractionHandler } from "./InteractionHandler";
   import { createHash } from "crypto";
+import { RegisteredButtonInteraction, RegisteredModalSubmitInteraction, RegisteredSelectMenuInteraction } from "../managers/CommandManager";
   const config = getBotConfig();
   
   export type CustomApplicationCommand = {
@@ -29,13 +30,22 @@ import {
     public readonly logger = LogService.getLogger();
     private commands: Map<string, CustomApplicationCommand>;
     private interactionHandler: InteractionHandler;
+    private config: any;
+
+    startedAt: number;
+    
+    buttons: RegisteredButtonInteraction[] = [];
+    selectMenus: RegisteredSelectMenuInteraction[] = [];
+    modals: RegisteredModalSubmitInteraction[] = [];
   
-    constructor(options: ClientOptions) {
+    constructor(config: any, options: ClientOptions) {
       super(options);
+      this.config = config;
       this.commands = new Map();
       this.registerEventListeners().catch((e) => {
         this.logger.error(e);
       });
+      this.startedAt = Date.now()
       this.interactionHandler = new InteractionHandler();
     }
   
