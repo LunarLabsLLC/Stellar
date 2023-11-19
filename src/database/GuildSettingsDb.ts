@@ -1,6 +1,5 @@
 import Keyv from 'keyv';
 import KeyvMongo from '@keyv/mongo';
-import { LogService } from "../service/LogService";
 import LogManager from '../managers/LogManager';
 import { DatabaseService } from '../service/DatabaseService';
 
