@@ -1,6 +1,6 @@
 node_modules/
 configs/.env
-configs/bot.yaml
+configs/bot.toml
 cmdhash-production
 yarn-error.log
 yarn.lock
