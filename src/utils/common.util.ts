@@ -1,13 +1,12 @@
 import { Dirent, readFileSync } from "fs";
-import YAML from "yaml";
 import { resolve } from "path";
 import { readdir } from "fs/promises";
 import { DISCORD_EMOJI_REGEX } from "../constants";
 import { MessageComponent } from "oceanic.js";
 import humanizeDuration from "humanize-duration";
-
-export function parseYAML(filePath: string) {
-  return YAML.parse(readFileSync(filePath, "utf8"));
+import toml from "toml";
+export function parseTOML(filePath: string) {
+  return toml.parse(readFileSync(filePath, "utf8"));
 }
 
 /**

@@ -1,7 +1,7 @@
-import { parseYAML } from "./common.util";
+import { parseTOML } from "./common.util";
 
 export function getBotConfig() {
-	return parseYAML(`${getConfigDir()}/bot.yaml`);
+	return parseTOML(`${getConfigDir()}/bot.toml`);
 }
 
 function getConfigDir() {

@@ -250,7 +250,7 @@ export class StellarClient extends Client {
         "unknown";
     }
     LogManager.log(
-      chalk.dim.gray('\n━━━━━━━━━━ Started! ━━━━━━━━━━\n'),
+      chalk.gray('\n━━━━━━━━━━ Started! ━━━━━━━━━━\n'),
       "default"
     );
     LogManager.log(
