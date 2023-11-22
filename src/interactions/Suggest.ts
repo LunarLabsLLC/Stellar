@@ -3,10 +3,9 @@ import CommandManager from "../managers/CommandManager"
 import { ApplicationCommandBuilder } from "@oceanicjs/builders"
 
 const Suggest: CommandManager = {
-    data: new ApplicationCommandBuilder(ApplicationCommandTypes.CHAT_INPUT, "suggpingest")
-        .setDescription("Get the bots latency and heartbeat"),
+    data: new ApplicationCommandBuilder(ApplicationCommandTypes.CHAT_INPUT, "suggest")
+        .setDescription("Suggest a new idea to the staff team."),
 
     execute: async(client, interaction) => {
-        return interaction.createMessage({ content: "Pong!" });
     }
 }

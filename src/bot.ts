@@ -20,8 +20,9 @@ async function initializeBot() {
       everyone: true,
       repliedUser: true,
     },
-  });
-
+  }
+  );
+  client.registerCommands()
   await client.connect();
 }
 

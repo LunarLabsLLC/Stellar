@@ -5,6 +5,7 @@ import {
   CreateApplicationCommandOptions,
   Interaction,
   ModalSubmitInteraction,
+  RESTManager,
 } from "oceanic.js";
 import { resolve } from "path";
 import { getDirFiles } from "../utils/common.util";
@@ -21,7 +22,8 @@ import {
 import GuildSettingsDb from "../database/GuildSettingsDb";
 import LogManager from "../managers/LogManager";
 import chalk from "chalk";
-
+import path from "path";
+import fs from "fs";
 const config = getBotConfig();
 
 export type CustomApplicationCommand = {
@@ -49,6 +51,46 @@ export class StellarClient extends Client {
 
   // dbs
   guildDb: GuildSettingsDb;
+
+  registerCommands() {
+    const foldersPath = path.join(__dirname, '../interactions');
+    const commandFolders = fs.readdirSync(foldersPath)
+
+    const commandDataJSON = []
+
+    for (const folder of commandFolders) {
+        const commandsPath = path.join(foldersPath, folder);
+        const commandFiles = fs.readdirSync(commandsPath)
+        for (const file of commandFiles) {
+            const filePath = path.join(commandsPath, file);
+        const command = require(filePath);
+            if ('data' in command && 'execute' in command) {
+                this.commands.set(command.data.name, command);
+                commandDataJSON.push(command.data.toJSON())
+            } else {
+                LogManager.log(`The command at ${path.join(commandsPath, file)} is missing a required "data" or "execute" property.`, "warn");
+            }
+        }
+    }
+
+    // Push commands to client
+    const rest = new RESTManager().interactions.(process.env.BOT_TOKEN as string);
+
+    (async () => {
+        try {
+            console.log(`Started refreshing ${commandDataJSON.length} application (/) commands.`);
+
+            // The put method is used to fully refresh all commands in the guild with the current set
+            await rest.put(
+                Routes.applicationCommands(process.env.CLIENT_ID as string),
+                { body: commandDataJSON },
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    })();
+}
+
 
   constructor(options: ClientOptions) {
     super(options);

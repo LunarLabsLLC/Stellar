@@ -1,13 +1,10 @@
 import { CommandInteraction, ClientEvents, Message, Collection, ModalSubmitInteraction, GuildComponentSelectMenuInteraction, GuildComponentButtonInteraction } from "oceanic.js";
+import { ApplicationCommandBuilder } from "@oceanicjs/builders"
 import { StellarClient } from "../helpers/StellarClient";
 import fs from "fs";
 import path from "path";
-
-// Command stuff
-type StellarCommandData = Omit<CommandInteraction, "addSubcommand" | "addSubcommandGroup">;
-
 export default interface CommandManager {
-    data: StellarCommandData;
+    data: ApplicationCommandBuilder;
     execute: (client: StellarClient, interaction: CommandInteraction) => Promise<void>;
 }
 

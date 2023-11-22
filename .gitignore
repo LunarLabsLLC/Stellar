@@ -4,3 +4,5 @@ configs/bot.toml
 cmdhash-production
 yarn-error.log
 yarn.lock
+.yarn/
+.yarnrc.yml
