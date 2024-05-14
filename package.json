@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "humanize-duration": "^3.31.0",
-    "oceanic.js": "^1.8.1",
+    "oceanic.js": "^1.10.4",
     "pino": "^8.16.2",
     "pino-pretty": "^10.2.3",
     "ts-node": "^10.9.1",
